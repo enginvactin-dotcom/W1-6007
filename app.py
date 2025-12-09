@@ -23,5 +23,20 @@ def DBSPrediction():
     r = model.predict([[q]])
     return(render_template("DBSPrediction.html",r=r[0][0]))
 
+@app.route("/Credit", methods=["GET","POST"])
+def Credit():
+    return(render_template("Credit.html"))
+
+@app.route("/creditPrediction", methods=["GET","POST"])
+def creditPrediction():
+    q = float(request.form.get("q"))
+    model = joblib.load("/workspaces/W1-6007/german_credit.pkl")
+    r = model.predict([[q]])
+    if r == 1:
+        r = 'Approved'
+    else:
+        r = 'Not Approved'
+    return(render_template("creditPrediction.html",r))
+
 if __name__ == "__main__":
     app.run()
